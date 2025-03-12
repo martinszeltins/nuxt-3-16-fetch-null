@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>userError::</div>
+        <div>userError:</div>
         <div v-if="userError">
             userError: {{ userError }}
         </div>
@@ -13,9 +13,8 @@
 </template>
 
 <script setup lang="ts">
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const users = ref<any>([])
-    const userError = ref<any>(null)
+    const users = ref([])
+    const userError = ref(null)
 
     const { data, error } = await useFetch('/api/user/list', {
         method: 'POST',
@@ -33,15 +32,15 @@
     })
 
     console.log('---- API Finished ----')
-    console.log('data value', toRaw(data.value))
-    console.log('error value', toRaw(error.value))
+    console.log('data value', toRaw(data.value)) // null (in prod)
+    console.log('error value', toRaw(error.value)) // null (in prod)
 
-    users.value = structuredClone(toRaw(data.value))
-    userError.value = structuredClone(toRaw(error.value))
+    users.value = structuredClone(toRaw(data.value)) // null (in prod)
+    userError.value = structuredClone(toRaw(error.value)) // null (in prod)
 
     if (import.meta.client) {
         setTimeout(() => {
-            console.log({ users: toRaw(users.value) })
+            console.log({ users: toRaw(users.value) }) // null (in prod)
         }, 2000)
     }
 </script>
